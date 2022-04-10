@@ -1,5 +1,6 @@
 require("dotenv").config();
 var express = require('express');
+var cors = require('cors')
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -19,6 +20,7 @@ mongoose.connect(process.env.MONGODB_CONNECTION,{
 var app = express();
 
 const AdminUser = require('./Model/AdminUser')
+app.use(cors())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
