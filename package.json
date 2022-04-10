@@ -11,6 +11,7 @@
     "dotenv": "^16.0.0",
     "enterprise-lftu-backend": "file:",
     "express": "~4.16.1",
+    "express-session": "^1.17.2",
     "mongoose": "^6.2.10",
     "morgan": "~1.9.1"
   }

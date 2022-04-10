@@ -1,11 +1,14 @@
+require("dotenv").config();
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-require("dotenv").config();
+const session = require('express-session');
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/api');
+var adminViewer = require('./routes/viewAdmins');
 const mongoose = require('mongoose')
+
+var addAdminUser = require('./routes/addAdminUser');
 
 mongoose.connect(process.env.MONGODB_CONNECTION,{
     useNewUrlParser:true,
@@ -15,13 +18,29 @@ mongoose.connect(process.env.MONGODB_CONNECTION,{
 
 var app = express();
 
+const AdminUser = require('./Model/AdminUser')
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+  }));
 app.use('/', indexRouter);
-app.use('/api', usersRouter);
+app.use('/adminFinder', adminViewer);
+app.post('/addNewAdmin',(req,res)=>{
+    const Data = new AdminUser({
+        userId:'fFfVhFTEgDbsd1IKpK2hsMaE01u1',
+        isAdmin:true
+    })
+    Data.save()
+    res.end("Worked")
+})
+// app.use('/addNewAdmin', addAdminUser);
+
 
 module.exports = app;
