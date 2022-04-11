@@ -35,8 +35,9 @@ app.use(session({
 app.use('/', indexRouter);
 app.use('/adminFinder', adminViewer);
 app.post('/addNewAdmin',(req,res)=>{
+    console.log("Added" + req.query.userId)
     const Data = new AdminUser({
-        userId:'fFfVhFTEgDbsd1IKpK2hsMaE01u1',
+        userId:req.query.userId,
         isAdmin:true
     })
     Data.save()
