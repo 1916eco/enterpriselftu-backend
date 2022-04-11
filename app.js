@@ -10,8 +10,6 @@ var adminViewer = require('./routes/viewAdmins');
 var adminGetAll = require('./routes/adminGetAll');
 const mongoose = require('mongoose')
 
-var addAdminUser = require('./routes/addAdminUser');
-
 mongoose.connect(process.env.MONGODB_CONNECTION,{
     useNewUrlParser:true,
     useUnifiedTopology:true
@@ -40,6 +38,8 @@ app.post('/addNewAdmin',(req,res)=>{
     console.log("Added" + req.query.userId)
     const Data = new AdminUser({
         userId:req.query.userId,
+        displayName:req.query.displayName,
+        email:req.query.email,
         isAdmin:true
     })
     Data.save()
